@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios'
 //import SearchBar from "./components/searchbar/SearchBar";
@@ -7,21 +7,21 @@ import axios from 'axios'
 
 function App() {
 
-  //'https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.channels.list?part=contentDetails&mine=true&key=[your_api_key]'
-  //const apiUrl='https://www.googleapis.com/youtube/v3/videos'
+  const [searchVideos, setSearchVideos] = useState("")
 
-  //const apiUrl = 'https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.playlistItems.list?part=snippet%252CcontentDetails%252Cstatus&playlistId=UUK8sQmJBp8GCxrOtXWBpyEA'
+  const apiUrl='https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&key=AIzaSyDqTmQ8ObLsln_hinp5f_I2Atguxlqc4Y8'
 
-  const apiUrl = 'https://www.youtube.com/channel/UCqAEtEr0A0Eo2IVcuWBfB9g'
-
+  useEffect(() => {
+          axios.get(apiUrl).then(result => {
+            console.log(result.data.items)
+            const {searchVideos} = result.data.items;
+            setSearchVideos(searchVideos)
+        })
+      })
+ 
   return (
     <div className="App">
-      {axios.get(apiUrl).then(result => {
-          console.log(result)
-      })}
-
-      
-
+        {searchVideos}
     </div>
   );
 }
